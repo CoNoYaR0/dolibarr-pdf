@@ -15,7 +15,7 @@ app.get("/generate-pdf", async (req, res) => {
       headless: "new",
       args: ["--no-sandbox", "--disable-setuid-sandbox"]
     });
-    
+
     const page = await browser.newPage();
 
     // Connexion Dolibarr
@@ -27,7 +27,7 @@ app.get("/generate-pdf", async (req, res) => {
 
     // Générer PDF
     await page.goto(url, { waitUntil: "networkidle0" });
-    await page.waitForTimeout(2000); // laisse le temps à Dolibarr de générer le PDF
+    await new Promise(resolve => setTimeout(resolve, 2000)); // 👈 remplacement ici
 
     await browser.close();
     res.send({ success: true, id, message: "PDF génération simulée" });
