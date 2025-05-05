@@ -29,9 +29,11 @@ app.get("/generate-pdf", async (req, res) => {
     await page.goto(url, { waitUntil: "networkidle0" });
 
     // ✅ Sélection du modèle PDF si nécessaire
+    await page.waitForSelector('select[name="modelpdf"]');
     await page.select('select[name="modelpdf"]', 'crabe');
 
     // ✅ Clique sur le bouton "GÉNÉRER"
+    await page.waitForSelector('input[type="submit"][value="GÉNÉRER"]');
     await page.click('input[type="submit"][value="GÉNÉRER"]');
 
     // ⏳ Attend que Dolibarr attache le fichier PDF
