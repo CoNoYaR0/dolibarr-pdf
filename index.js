@@ -11,7 +11,11 @@ app.get("/generate-pdf", async (req, res) => {
   const url = `${process.env.DOLIBARR_URL}/compta/facture/card.php?id=${id}`;
 
   try {
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({
+      headless: "new",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"]
+    });
+    
     const page = await browser.newPage();
 
     // Connexion Dolibarr
