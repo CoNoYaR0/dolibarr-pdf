@@ -29,12 +29,13 @@ app.get("/generate-pdf", async (req, res) => {
     await page.goto(url, { waitUntil: "networkidle0" });
 
     // ✅ Attente du champ modèle
-    await page.waitForSelector('select[name="modelpdf"]');
-    await page.select('select[name="modelpdf"]', 'crabe');
+    await page.waitForSelector('select[name="model"]');
+    await page.select('select[name="model"]', 'crabe');
 
-    // ✅ Clic sur le bouton GÉNÉRER
-    await page.waitForSelector('input[type="submit"][value="GÉNÉRER"]');
-    await page.click('input[type="submit"][value="GÉNÉRER"]');
+// ✅ Clic sur le bouton GÉNÉRER (id réel confirmé via inspecteur)
+ await page.waitForSelector('#builddoc_generatebutton');
+ await page.click('#builddoc_generatebutton');
+
 
     // ⏳ Attente passive post-génération
     await new Promise(resolve => setTimeout(resolve, 3000));
