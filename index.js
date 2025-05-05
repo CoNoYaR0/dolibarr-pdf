@@ -28,15 +28,15 @@ app.get("/generate-pdf", async (req, res) => {
     // Accès à la facture
     await page.goto(url, { waitUntil: "networkidle0" });
 
-    // ✅ Sélection du modèle PDF si nécessaire
+    // ✅ Attente du champ modèle
     await page.waitForSelector('select[name="modelpdf"]');
     await page.select('select[name="modelpdf"]', 'crabe');
 
-    // ✅ Clique sur le bouton "GÉNÉRER"
+    // ✅ Clic sur le bouton GÉNÉRER
     await page.waitForSelector('input[type="submit"][value="GÉNÉRER"]');
     await page.click('input[type="submit"][value="GÉNÉRER"]');
 
-    // ⏳ Attend que Dolibarr attache le fichier PDF
+    // ⏳ Attente passive post-génération
     await new Promise(resolve => setTimeout(resolve, 3000));
 
     await browser.close();
@@ -47,6 +47,9 @@ app.get("/generate-pdf", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 3000, () => {
+const server = app.listen(process.env.PORT || 3000, () => {
   console.log("Server running");
 });
+
+// ⏳ Augmentation du timeout à 120s
+server.setTimeout(120000);
